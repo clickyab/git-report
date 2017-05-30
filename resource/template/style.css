@@ -1,0 +1,977 @@
+* {
+     box-sizing: content-box
+ }
+ body {
+     background-color: #eee;
+     width: 1000px;
+
+     margin: auto;
+     font-family: Segoe UI, Tahoma, Geneva, Verdana, sans-serif
+ }
+ body,
+ body a {
+     color: #456789
+ }
+ body a {
+     text-decoration: none
+ }
+ .base-holder {
+     width: 1000px;
+     margin: auto
+ }
+ .redmine {
+     width: 50%;
+ }
+ .commit {
+     -webkit-box-align: stretch;
+     -ms-flex-align: stretch;
+     align-items: stretch;
+ }
+ .commit,
+ .commit .icon-0 {
+     background-color: #fff;
+     display: -webkit-box;
+     display: -ms-flexbox;
+     display: flex
+ }
+ .commit .icon-0 {
+     -webkit-box-align: center;
+     -ms-flex-align: center;
+     align-items: center;
+     -ms-flex-pack: distribute;
+     justify-content: space-around;
+     font-weight: 700;
+     font-size: 35px;
+     width: 70px;
+     height: 70px;
+     border-radius: 50%;
+     color: #fff;
+     border: 4px solid #3d5a78;
+     overflow: hidden;
+     text-align: center;
+     -webkit-transition: background 1s;
+     transition: background 1s;
+     position: absolute;
+     top: 10px;
+     right: -13px;
+     text-transform: uppercase;
+     position: relative;
+     background-color: #692226
+ }
+ .commit .icon-0 img {
+     top: 0;
+     left: 0;
+     position: absolute;
+     width: 100%;
+     height: 100%;
+     -webkit-transition: all .5s;
+     transition: all .5s;
+     border-radius: 50%;
+     opacity: 1
+ }
+ .commit .icon-0 .imgh {
+     opacity: 0!important
+ }
+ .commit .icon-1 {
+     background-color: #fff;
+     display: -webkit-box;
+     display: -ms-flexbox;
+     display: flex;
+     -webkit-box-align: center;
+     -ms-flex-align: center;
+     align-items: center;
+     -ms-flex-pack: distribute;
+     justify-content: space-around;
+     font-weight: 700;
+     font-size: 35px;
+     width: 70px;
+     height: 70px;
+     border-radius: 50%;
+     color: #fff;
+     border: 4px solid #3d5a78;
+     overflow: hidden;
+     text-align: center;
+     -webkit-transition: background 1s;
+     transition: background 1s;
+     position: absolute;
+     top: 10px;
+     right: -13px;
+     text-transform: uppercase;
+     position: relative;
+     background-color: #635f1e
+ }
+ .commit .icon-1 img {
+     top: 0;
+     left: 0;
+     position: absolute;
+     width: 100%;
+     height: 100%;
+     -webkit-transition: all .5s;
+     transition: all .5s;
+     border-radius: 50%;
+     opacity: 1
+ }
+ .commit .icon-1 .imgh {
+     opacity: 0!important
+ }
+ .commit .icon-2 {
+     background-color: #fff;
+     display: -webkit-box;
+     display: -ms-flexbox;
+     display: flex;
+     -webkit-box-align: center;
+     -ms-flex-align: center;
+     align-items: center;
+     -ms-flex-pack: distribute;
+     justify-content: space-around;
+     font-weight: 700;
+     font-size: 35px;
+     width: 70px;
+     height: 70px;
+     border-radius: 50%;
+     color: #fff;
+     border: 4px solid #3d5a78;
+     overflow: hidden;
+     text-align: center;
+     -webkit-transition: background 1s;
+     transition: background 1s;
+     position: absolute;
+     top: 10px;
+     right: -13px;
+     text-transform: uppercase;
+     position: relative;
+     background-color: #c1ce3
+ }
+ .commit .icon-2 img {
+     top: 0;
+     left: 0;
+     position: absolute;
+     width: 100%;
+     height: 100%;
+     -webkit-transition: all .5s;
+     transition: all .5s;
+     border-radius: 50%;
+     opacity: 1
+ }
+ .commit .icon-2 .imgh {
+     opacity: 0!important
+ }
+ .commit .icon-3 {
+     background-color: #fff;
+     display: -webkit-box;
+     display: -ms-flexbox;
+     display: flex;
+     -webkit-box-align: center;
+     -ms-flex-align: center;
+     align-items: center;
+     -ms-flex-pack: distribute;
+     justify-content: space-around;
+     font-weight: 700;
+     font-size: 35px;
+     width: 70px;
+     height: 70px;
+     border-radius: 50%;
+     color: #fff;
+     border: 4px solid #3d5a78;
+     overflow: hidden;
+     text-align: center;
+     -webkit-transition: background 1s;
+     transition: background 1s;
+     position: absolute;
+     top: 10px;
+     right: -13px;
+     text-transform: uppercase;
+     position: relative;
+     background-color: #4ccd30
+ }
+ .commit .icon-3 img {
+     top: 0;
+     left: 0;
+     position: absolute;
+     width: 100%;
+     height: 100%;
+     -webkit-transition: all .5s;
+     transition: all .5s;
+     border-radius: 50%;
+     opacity: 1
+ }
+ .commit .icon-3 .imgh {
+     opacity: 0!important
+ }
+ .commit .icon-4 {
+     background-color: #fff;
+     display: -webkit-box;
+     display: -ms-flexbox;
+     display: flex;
+     -webkit-box-align: center;
+     -ms-flex-align: center;
+     align-items: center;
+     -ms-flex-pack: distribute;
+     justify-content: space-around;
+     font-weight: 700;
+     font-size: 35px;
+     width: 70px;
+     height: 70px;
+     border-radius: 50%;
+     color: #fff;
+     border: 4px solid #3d5a78;
+     overflow: hidden;
+     text-align: center;
+     -webkit-transition: background 1s;
+     transition: background 1s;
+     position: absolute;
+     top: 10px;
+     right: -13px;
+     text-transform: uppercase;
+     position: relative;
+     background-color: #2e6ee2
+ }
+ .commit .icon-4 img {
+     top: 0;
+     left: 0;
+     position: absolute;
+     width: 100%;
+     height: 100%;
+     -webkit-transition: all .5s;
+     transition: all .5s;
+     border-radius: 50%;
+     opacity: 1
+ }
+ .commit .icon-4 .imgh {
+     opacity: 0!important
+ }
+ .commit .icon-5 {
+     background-color: #fff;
+     display: -webkit-box;
+     display: -ms-flexbox;
+     display: flex;
+     -webkit-box-align: center;
+     -ms-flex-align: center;
+     align-items: center;
+     -ms-flex-pack: distribute;
+     justify-content: space-around;
+     font-weight: 700;
+     font-size: 35px;
+     width: 70px;
+     height: 70px;
+     border-radius: 50%;
+     color: #fff;
+     border: 4px solid #3d5a78;
+     overflow: hidden;
+     text-align: center;
+     -webkit-transition: background 1s;
+     transition: background 1s;
+     position: absolute;
+     top: 10px;
+     right: -13px;
+     text-transform: uppercase;
+     position: relative;
+     background-color: #1d941c
+ }
+ .commit .icon-5 img {
+     top: 0;
+     left: 0;
+     position: absolute;
+     width: 100%;
+     height: 100%;
+     -webkit-transition: all .5s;
+     transition: all .5s;
+     border-radius: 50%;
+     opacity: 1
+ }
+ .commit .icon-5 .imgh {
+     opacity: 0!important
+ }
+ .commit .icon-6 {
+     background-color: #fff;
+     display: -webkit-box;
+     display: -ms-flexbox;
+     display: flex;
+     -webkit-box-align: center;
+     -ms-flex-align: center;
+     align-items: center;
+     -ms-flex-pack: distribute;
+     justify-content: space-around;
+     font-weight: 700;
+     font-size: 35px;
+     width: 70px;
+     height: 70px;
+     border-radius: 50%;
+     color: #fff;
+     border: 4px solid #3d5a78;
+     overflow: hidden;
+     text-align: center;
+     -webkit-transition: background 1s;
+     transition: background 1s;
+     position: absolute;
+     top: 10px;
+     right: -13px;
+     text-transform: uppercase;
+     position: relative;
+     background-color: #22a1f7
+ }
+ .commit .icon-6 img {
+     top: 0;
+     left: 0;
+     position: absolute;
+     width: 100%;
+     height: 100%;
+     -webkit-transition: all .5s;
+     transition: all .5s;
+     border-radius: 50%;
+     opacity: 1
+ }
+ .commit .icon-6 .imgh {
+     opacity: 0!important
+ }
+ .commit .icon-7 {
+     background-color: #fff;
+     display: -webkit-box;
+     display: -ms-flexbox;
+     display: flex;
+     -webkit-box-align: center;
+     -ms-flex-align: center;
+     align-items: center;
+     -ms-flex-pack: distribute;
+     justify-content: space-around;
+     font-weight: 700;
+     font-size: 35px;
+     width: 70px;
+     height: 70px;
+     border-radius: 50%;
+     color: #fff;
+     border: 4px solid #3d5a78;
+     overflow: hidden;
+     text-align: center;
+     -webkit-transition: background 1s;
+     transition: background 1s;
+     position: absolute;
+     top: 10px;
+     right: -13px;
+     text-transform: uppercase;
+     position: relative;
+     background-color: #7f94f1
+ }
+ .commit .icon-7 img {
+     top: 0;
+     left: 0;
+     position: absolute;
+     width: 100%;
+     height: 100%;
+     -webkit-transition: all .5s;
+     transition: all .5s;
+     border-radius: 50%;
+     opacity: 1
+ }
+ .commit .icon-7 .imgh {
+     opacity: 0!important
+ }
+ .commit .icon-8 {
+     background-color: #fff;
+     display: -webkit-box;
+     display: -ms-flexbox;
+     display: flex;
+     -webkit-box-align: center;
+     -ms-flex-align: center;
+     align-items: center;
+     -ms-flex-pack: distribute;
+     justify-content: space-around;
+     font-weight: 700;
+     font-size: 35px;
+     width: 70px;
+     height: 70px;
+     border-radius: 50%;
+     color: #fff;
+     border: 4px solid #3d5a78;
+     overflow: hidden;
+     text-align: center;
+     -webkit-transition: background 1s;
+     transition: background 1s;
+     position: absolute;
+     top: 10px;
+     right: -13px;
+     text-transform: uppercase;
+     position: relative;
+     background-color: #6a691
+ }
+ .commit .icon-8 img {
+     top: 0;
+     left: 0;
+     position: absolute;
+     width: 100%;
+     height: 100%;
+     -webkit-transition: all .5s;
+     transition: all .5s;
+     border-radius: 50%;
+     opacity: 1
+ }
+ .commit .icon-8 .imgh {
+     opacity: 0!important
+ }
+ .commit .icon-9 {
+     background-color: #fff;
+     display: -webkit-box;
+     display: -ms-flexbox;
+     display: flex;
+     -webkit-box-align: center;
+     -ms-flex-align: center;
+     align-items: center;
+     -ms-flex-pack: distribute;
+     justify-content: space-around;
+     font-weight: 700;
+     font-size: 35px;
+     width: 70px;
+     height: 70px;
+     border-radius: 50%;
+     color: #fff;
+     border: 4px solid #3d5a78;
+     overflow: hidden;
+     text-align: center;
+     -webkit-transition: background 1s;
+     transition: background 1s;
+     position: absolute;
+     top: 10px;
+     right: -13px;
+     text-transform: uppercase;
+     position: relative;
+     background-color: #154697
+ }
+ .commit .icon-9 img {
+     top: 0;
+     left: 0;
+     position: absolute;
+     width: 100%;
+     height: 100%;
+     -webkit-transition: all .5s;
+     transition: all .5s;
+     border-radius: 50%;
+     opacity: 1
+ }
+ .commit .icon-9 .imgh {
+     opacity: 0!important
+ }
+ .commit .icon-10 {
+     background-color: #fff;
+     display: -webkit-box;
+     display: -ms-flexbox;
+     display: flex;
+     -webkit-box-align: center;
+     -ms-flex-align: center;
+     align-items: center;
+     -ms-flex-pack: distribute;
+     justify-content: space-around;
+     font-weight: 700;
+     font-size: 35px;
+     width: 70px;
+     height: 70px;
+     border-radius: 50%;
+     color: #fff;
+     border: 4px solid #3d5a78;
+     overflow: hidden;
+     text-align: center;
+     -webkit-transition: background 1s;
+     transition: background 1s;
+     position: absolute;
+     top: 10px;
+     right: -13px;
+     text-transform: uppercase;
+     position: relative;
+     background-color: #47052a
+ }
+ .commit .icon-10 img {
+     top: 0;
+     left: 0;
+     position: absolute;
+     width: 100%;
+     height: 100%;
+     -webkit-transition: all .5s;
+     transition: all .5s;
+     border-radius: 50%;
+     opacity: 1
+ }
+ .commit .icon-10 .imgh {
+     opacity: 0!important
+ }
+ .commit .icon-11 {
+     background-color: #fff;
+     display: -webkit-box;
+     display: -ms-flexbox;
+     display: flex;
+     -webkit-box-align: center;
+     -ms-flex-align: center;
+     align-items: center;
+     -ms-flex-pack: distribute;
+     justify-content: space-around;
+     font-weight: 700;
+     font-size: 35px;
+     width: 70px;
+     height: 70px;
+     border-radius: 50%;
+     color: #fff;
+     border: 4px solid #3d5a78;
+     overflow: hidden;
+     text-align: center;
+     -webkit-transition: background 1s;
+     transition: background 1s;
+     position: absolute;
+     top: 10px;
+     right: -13px;
+     text-transform: uppercase;
+     position: relative;
+     background-color: #706fb6
+ }
+ .commit .icon-11 img {
+     top: 0;
+     left: 0;
+     position: absolute;
+     width: 100%;
+     height: 100%;
+     -webkit-transition: all .5s;
+     transition: all .5s;
+     border-radius: 50%;
+     opacity: 1
+ }
+ .commit .icon-11 .imgh {
+     opacity: 0!important
+ }
+ .commit .icon-12 {
+     background-color: #fff;
+     display: -webkit-box;
+     display: -ms-flexbox;
+     display: flex;
+     -webkit-box-align: center;
+     -ms-flex-align: center;
+     align-items: center;
+     -ms-flex-pack: distribute;
+     justify-content: space-around;
+     font-weight: 700;
+     font-size: 35px;
+     width: 70px;
+     height: 70px;
+     border-radius: 50%;
+     color: #fff;
+     border: 4px solid #3d5a78;
+     overflow: hidden;
+     text-align: center;
+     -webkit-transition: background 1s;
+     transition: background 1s;
+     position: absolute;
+     top: 10px;
+     right: -13px;
+     text-transform: uppercase;
+     position: relative;
+     background-color: #d2f80
+ }
+ .commit .icon-12 img {
+     top: 0;
+     left: 0;
+     position: absolute;
+     width: 100%;
+     height: 100%;
+     -webkit-transition: all .5s;
+     transition: all .5s;
+     border-radius: 50%;
+     opacity: 1
+ }
+ .commit .icon-12 .imgh {
+     opacity: 0!important
+ }
+ .commit .icon-13 {
+     background-color: #fff;
+     display: -webkit-box;
+     display: -ms-flexbox;
+     display: flex;
+     -webkit-box-align: center;
+     -ms-flex-align: center;
+     align-items: center;
+     -ms-flex-pack: distribute;
+     justify-content: space-around;
+     font-weight: 700;
+     font-size: 35px;
+     width: 70px;
+     height: 70px;
+     border-radius: 50%;
+     color: #fff;
+     border: 4px solid #3d5a78;
+     overflow: hidden;
+     text-align: center;
+     -webkit-transition: background 1s;
+     transition: background 1s;
+     position: absolute;
+     top: 10px;
+     right: -13px;
+     text-transform: uppercase;
+     position: relative;
+     background-color: #35eed2
+ }
+ .commit .icon-13 img {
+     top: 0;
+     left: 0;
+     position: absolute;
+     width: 100%;
+     height: 100%;
+     -webkit-transition: all .5s;
+     transition: all .5s;
+     border-radius: 50%;
+     opacity: 1
+ }
+ .commit .icon-13 .imgh {
+     opacity: 0!important
+ }
+ .commit .icon-14 {
+     background-color: #fff;
+     display: -webkit-box;
+     display: -ms-flexbox;
+     display: flex;
+     -webkit-box-align: center;
+     -ms-flex-align: center;
+     align-items: center;
+     -ms-flex-pack: distribute;
+     justify-content: space-around;
+     font-weight: 700;
+     font-size: 35px;
+     width: 70px;
+     height: 70px;
+     border-radius: 50%;
+     color: #fff;
+     border: 4px solid #3d5a78;
+     overflow: hidden;
+     text-align: center;
+     -webkit-transition: background 1s;
+     transition: background 1s;
+     position: absolute;
+     top: 10px;
+     right: -13px;
+     text-transform: uppercase;
+     position: relative;
+     background-color: #65d34b
+ }
+ .commit .icon-14 img {
+     top: 0;
+     left: 0;
+     position: absolute;
+     width: 100%;
+     height: 100%;
+     -webkit-transition: all .5s;
+     transition: all .5s;
+     border-radius: 50%;
+     opacity: 1
+ }
+ .commit .icon-14 .imgh {
+     opacity: 0!important
+ }
+ .commit .icon-15 {
+     background-color: #fff;
+     display: -webkit-box;
+     display: -ms-flexbox;
+     display: flex;
+     -webkit-box-align: center;
+     -ms-flex-align: center;
+     align-items: center;
+     -ms-flex-pack: distribute;
+     justify-content: space-around;
+     font-weight: 700;
+     font-size: 35px;
+     width: 70px;
+     height: 70px;
+     border-radius: 50%;
+     color: #fff;
+     border: 4px solid #3d5a78;
+     overflow: hidden;
+     text-align: center;
+     -webkit-transition: background 1s;
+     transition: background 1s;
+     position: absolute;
+     top: 10px;
+     right: -13px;
+     text-transform: uppercase;
+     position: relative;
+     background-color: #6c955b
+ }
+ .commit .icon-15 img {
+     top: 0;
+     left: 0;
+     position: absolute;
+     width: 100%;
+     height: 100%;
+     -webkit-transition: all .5s;
+     transition: all .5s;
+     border-radius: 50%;
+     opacity: 1
+ }
+ .commit .icon-15 .imgh {
+     opacity: 0!important
+ }
+ .commit .icon-16 {
+     background-color: #fff;
+     display: -webkit-box;
+     display: -ms-flexbox;
+     display: flex;
+     -webkit-box-align: center;
+     -ms-flex-align: center;
+     align-items: center;
+     -ms-flex-pack: distribute;
+     justify-content: space-around;
+     font-weight: 700;
+     font-size: 35px;
+     width: 70px;
+     height: 70px;
+     border-radius: 50%;
+     color: #fff;
+     border: 4px solid #3d5a78;
+     overflow: hidden;
+     text-align: center;
+     -webkit-transition: background 1s;
+     transition: background 1s;
+     position: absolute;
+     top: 10px;
+     right: -13px;
+     text-transform: uppercase;
+     position: relative;
+     background-color: #5c27b5
+ }
+ .commit .icon-16 img {
+     top: 0;
+     left: 0;
+     position: absolute;
+     width: 100%;
+     height: 100%;
+     -webkit-transition: all .5s;
+     transition: all .5s;
+     border-radius: 50%;
+     opacity: 1
+ }
+ .commit .icon-16 .imgh {
+     opacity: 0!important
+ }
+ .commit .icon-17 {
+     background-color: #fff;
+     display: -webkit-box;
+     display: -ms-flexbox;
+     display: flex;
+     -webkit-box-align: center;
+     -ms-flex-align: center;
+     align-items: center;
+     -ms-flex-pack: distribute;
+     justify-content: space-around;
+     font-weight: 700;
+     font-size: 35px;
+     width: 70px;
+     height: 70px;
+     border-radius: 50%;
+     color: #fff;
+     border: 4px solid #3d5a78;
+     overflow: hidden;
+     text-align: center;
+     -webkit-transition: background 1s;
+     transition: background 1s;
+     position: absolute;
+     top: 10px;
+     right: -13px;
+     text-transform: uppercase;
+     position: relative;
+     background-color: #53023b
+ }
+ .commit .icon-17 img {
+     top: 0;
+     left: 0;
+     position: absolute;
+     width: 100%;
+     height: 100%;
+     -webkit-transition: all .5s;
+     transition: all .5s;
+     border-radius: 50%;
+     opacity: 1
+ }
+ .commit .icon-17 .imgh {
+     opacity: 0!important
+ }
+ .commit .icon-18 {
+     background-color: #fff;
+     display: -webkit-box;
+     display: -ms-flexbox;
+     display: flex;
+     -webkit-box-align: center;
+     -ms-flex-align: center;
+     align-items: center;
+     -ms-flex-pack: distribute;
+     justify-content: space-around;
+     font-weight: 700;
+     font-size: 35px;
+     width: 70px;
+     height: 70px;
+     border-radius: 50%;
+     color: #fff;
+     border: 4px solid #3d5a78;
+     overflow: hidden;
+     text-align: center;
+     -webkit-transition: background 1s;
+     transition: background 1s;
+     position: absolute;
+     top: 10px;
+     right: -13px;
+     text-transform: uppercase;
+     position: relative;
+     background-color: #1f49aa
+ }
+ .commit .icon-18 img {
+     top: 0;
+     left: 0;
+     position: absolute;
+     width: 100%;
+     height: 100%;
+     -webkit-transition: all .5s;
+     transition: all .5s;
+     border-radius: 50%;
+     opacity: 1
+ }
+ .commit .icon-18 .imgh {
+     opacity: 0!important
+ }
+ .commit .icon-19 {
+     background-color: #fff;
+     display: -webkit-box;
+     display: -ms-flexbox;
+     display: flex;
+     -webkit-box-align: center;
+     -ms-flex-align: center;
+     align-items: center;
+     -ms-flex-pack: distribute;
+     justify-content: space-around;
+     font-weight: 700;
+     font-size: 35px;
+     width: 70px;
+     height: 70px;
+     border-radius: 50%;
+     color: #fff;
+     border: 4px solid #3d5a78;
+     overflow: hidden;
+     text-align: center;
+     -webkit-transition: background 1s;
+     transition: background 1s;
+     position: absolute;
+     top: 10px;
+     right: -13px;
+     text-transform: uppercase;
+     position: relative;
+     background-color: #601e7f
+ }
+ .commit .icon-19 img {
+     top: 0;
+     left: 0;
+     position: absolute;
+     width: 100%;
+     height: 100%;
+     -webkit-transition: all .5s;
+     transition: all .5s;
+     border-radius: 50%;
+     opacity: 1
+ }
+ .commit .icon-19 .imgh {
+     opacity: 0!important
+ }
+ .commit .icon-20 {
+     background-color: #fff;
+     display: -webkit-box;
+     display: -ms-flexbox;
+     display: flex;
+     -webkit-box-align: center;
+     -ms-flex-align: center;
+     align-items: center;
+     -ms-flex-pack: distribute;
+     justify-content: space-around;
+     font-weight: 700;
+     font-size: 35px;
+     width: 70px;
+     height: 70px;
+     border-radius: 50%;
+     color: #fff;
+     border: 4px solid #3d5a78;
+     overflow: hidden;
+     text-align: center;
+     -webkit-transition: background 1s;
+     transition: background 1s;
+     position: absolute;
+     top: 10px;
+     right: -13px;
+     text-transform: uppercase;
+     position: relative;
+     background-color: #4366a5
+ }
+ .commit .icon-20 img {
+     top: 0;
+     left: 0;
+     position: absolute;
+     width: 100%;
+     height: 100%;
+     -webkit-transition: all .5s;
+     transition: all .5s;
+     border-radius: 50%;
+     opacity: 1
+ }
+ .commit .icon-20 .imgh {
+     opacity: 0!important
+ }
+ .commit .details {
+     position: relative;
+     min-width: 50%;
+ }
+ .commit .date {
+     font-size: .55em;
+     color: #99a;
+     position: absolute;
+     bottom: 0;
+     right: 10px
+ }
+ .commit .info {
+     padding-left: 70px;
+     display: -webkit-box;
+     display: -ms-flexbox;
+     display: flex;
+     padding-bottom: 10px;
+     height: 100px;
+     width: 100%;
+
+         padding-bottom: 65px;
+    border-bottom: 1px solid hsla(220,100%,20%,.2);
+ }
+ .commit .tags {
+     margin-top: 25px
+ }
+ .commit .tags a {
+     margin: 2px 4px;
+     border-radius: 3px;
+     background-color: #3d5a78;
+     padding: 3px 5px;
+     cursor: pointer;
+     font-family: Segoe UI, Tahoma, Geneva, Verdana, sans-serif;
+     font-size: 100%;
+     color: #eee;
+     -webkit-transition: color .3s;
+     transition: color .3s
+ }
+ .commit .tags a:hover {
+     background-color: #2c5648
+ }
+ .commit h1,
+ .commit h2,
+ .commit h3,
+ .commit h4,
+ .commit h5 {
+    
+     -webkit-margin-after: 4px;
+     margin-block-end: 4px
+ }
+ .commit a {
+     font-size: 12px;
+     padding-top: -80px
+ }
+ .commit .timeline {
+     width: 50px;
+     border-right: 5px solid #3d5a78;
+     position: relative
+ }
+ .header {
+     background-color: #eee;
+     height: 150px
+ }

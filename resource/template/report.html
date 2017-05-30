@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Deploy report {{.Date.Format "2017 Jan 02 22:11:11"}}</title>
+    <base href="/">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<style>
+    {{.Style}}
+ </style>
+</head>
+
+<body>
+    <div class="header">
+
+        <h1>Deploy Report</h1>
+        <p>Generated on {{.Date.Format  "Jan 02, 2006 15:04:05 UTC"}}</p>
+        <lable  for="filter">Filter:</lable>
+    <input type="text" id="filter" >
+        
+    </div>
+    <div>
+   <div id="main"></div>
+
+    </div>
+<div class="footer"></div>
+   <script>
+
+   (function () {
+       staticData = "{{.Data}}";
+
+
+
+{{.Js}}
+
+})()
+
+
+
+   </script>
+</body>
+
+
+</html>
