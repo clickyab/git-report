@@ -1,14 +1,17 @@
 {
-	"ImportPath": "github.com/clickyab/git-report",
+	"ImportPath": "clickyab.com/git-report",
 	"GoVersion": "go1.8",
 	"GodepVersion": "v79",
-	"Packages": [
-		"./..."
-	],
 	"Deps": [
 		{
-			"ImportPath": "github.com/fzerorubigd/go-redmine",
-			"Rev": "05bb0a08b5c20b45765553ca33aea5a2aea9f3a8"
+			"ImportPath": "github.com/Sirupsen/logrus",
+			"Comment": "v0.11.5-46-g5e5dc89",
+			"Rev": "5e5dc898656f695e2a086b8e12559febbfc01562"
+		},
+		{
+			"ImportPath": "github.com/gorilla/websocket",
+			"Comment": "v1.1.0-29-ga91eba7",
+			"Rev": "a91eba7f97777409bc2c443f5534d41dd20c5720"
 		},
 		{
 			"ImportPath": "github.com/sergi/go-diff/diffmatchpatch",
@@ -57,6 +60,10 @@
 		{
 			"ImportPath": "golang.org/x/crypto/ssh/knownhosts",
 			"Rev": "7e9105388ebff089b3f99f0ef676ea55a6da3a7e"
+		},
+		{
+			"ImportPath": "golang.org/x/sys/unix",
+			"Rev": "0b25a408a50076fbbcae6b7ac0ea5fbb0b085e79"
 		},
 		{
 			"ImportPath": "gopkg.in/src-d/go-billy.v2",

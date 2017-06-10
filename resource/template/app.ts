@@ -1,52 +1,54 @@
+interface repository {
+    name: string;
+    url: string;
+    github: string;
+    redmine: string;
+    commits: commit_info[];
+}
 
-// const staticData = {}
-interface viewCommit {
-    aid: number;
-    nin: string;
-    ash: string;
-    vms: string;
-    csh: string;
-    tags: string;
-    date: string;
+interface commit_info {
+    time: Date;
+    hash: string;
+    request: string;
+    tags: tag[];
+    author: author;
 }
-interface TagView {
-    tc: string;
+
+
+interface author {
+    avatar: string;
+    name: string;
+    email: string;
 }
+
+interface tag {
+    code: number;
+    type: string;
+}
+
+
 const commitTpl = `
 <div class="commit">
     <div class="timeline">
-        <div class="icon icon-[[aid]]">
-            <div>[[nin]]</div>
-            <img src="https://www.gravatar.com/avatar/[[ash]]" alt="">
+        <div class="icon icon-0">
+            <div>[[acronim]]</div>
+            <img src="https://www.gravatar.com/avatar/[[avatar]]" 
+            alt="[[name]], [[email]]">
         </div>
     </div>
     <div class="info">
-
         <div class="details git">
-            <h2>[[vms]]</h2>
-            <a href="https://github.com/okian/clickyab-cyrest/commit/[[csh]]">[[csh]]</a>
+            <h2>[[message]]</h2>
+            <a href="https://github.com/[[repository]]/commit/[[hash]]">[[hash]]</a>
             <div class="tags">
                 [[tags]]
             </div>
-            <div class="date">[[time]]</div>
+            <div class="date">[[date]]</div>
         </div>
-        <div class="redmin">
-[[cr]]
-        </div>
-
-
     </div>
 </div>
-`
-const tagTpl = ` <a href="https://tracker.clickyab.com/issues/[[tc]]" >#[[tc]]</a>`
-const redminTmp =`<div class="cr" title="[[id]]">
-                <div class="id">[[id]]</div>
-                <div class="status status-[[statusid]]" title="[[status]]">[[statusid]]</div>
-                <div class="subject">[[subject]]</div>
-                <div class="description">[[description]]</div>
-                <div class="priority">[[priority]]</div>
-                <div class="author">[[author]]</div>
-            </div>`
+`;
+const tagTpl = ` <a href="https://[[redmine]]/issues/[[code]]" >#[[code]]</a>`;
 
 const monthNames = [
     "January", "February", "March",
@@ -54,107 +56,58 @@ const monthNames = [
     "August", "September", "October",
     "November", "December"
 ];
-class App {
-    constructor() {
-
-        this.main = document.getElementById("main");
-        this.report = JSON.parse(staticData)
-        this.commits = this.report.commits;
-        document.title = `Deploy report | ${this.report.time.toLocaleString()}`
-        this.authors = this.report.authors;
-        this.report.redmine.forEach(x=>console.log(x.id))
-        console.log(this.report.redmine.length)
-        let filter = document.getElementById("filter")
-            .addEventListener("keyup", e => {
-                //  let s = document.getElementById("filter").value;
-
-                let s = e.target.value;
-                this.filterCommit(s);
 
 
-            })
-        this.filterCommit("")
-        
-    }
+class report {
 
-    getRedmine(id:number):string {
-        for (var i =0; i< this.report.redmine.length; i++) {
-            if(this.report.redmine[i].id == id) {
-                return  this.engine(redminTmp, this.report.redmine[i])
+    repositories: repository[];
+    tabs: HTMLDivElement[] = [];
+    current: repository;
+
+    constructor(d: repository[]) {
+        this.repositories = d;
+        let header = this.divElem("tabs");
+        this.repositories.forEach((x, i) => {
+            let tb = i === 0 ? this.divElem("tab") : this.divElem("tab active");
+            header.appendChild(tb);
+            this.tabs.push(tb);
+            tb.innerText = x.name;
+            let tabHandler = () => {
+                console.log(x.name);
+                this.tabs.forEach(x => x.className = "tab");
+                tb.className = tb.className + " active";
+                this.current = x;
+                this.reneder(x);
+            };
+            tb.addEventListener("click", tabHandler.bind(this));
+        });
+
+        document.getElementById("repos").appendChild(header);
+        this.current = this.repositories[0];
+        this.reneder(this.current);
+
+        let filter = <HTMLInputElement>document.getElementById("filter");
+        filter.addEventListener("keyup", () => {
+            if (filter.value == "") {
+                this.reneder(this.filter(filter.value, this.current))
+            } else {
+                this.reneder(this.current)
             }
-        }
-        return ""
-    }
-    updateView(w: Commit[]) {
-
-        let tpl = '';
-        w.forEach(x => {
-            let tg = '';
-            x.tags.forEach(t => {
-                tg += this.engine(tagTpl, { tc: t.c })
-            })
-            const a = this.findAuthor(x.author_id);
-            const tm = {
-                aid: x.author_id,
-                nin: a.name.substr(0, 2).toUpperCase(),
-                ash: a.hash,
-                vms: x.message.indexOf("\n") != -1 ? x.message.substr(0, x.message.indexOf("\n")) : x.message,
-                csh: x.hash,
-                tags: tg,
-                time: this.dateFormater(new Date(x.time)),
-                cr:''//this.getRedmines(x.tags.map(q=>q.c))
-            }
-
-            tpl += this.engine(commitTpl, tm)
-
         })
-        this.main.innerHTML = tpl;
 
     }
 
-    main: HTMLElement;
-    report: Report;
-    commits: Commit[];
-    authors: Author[];
-    findAuthor(x: number): Author {
-        for (var i = 0; i < this.authors.length; i++) {
-            if (this.authors[i].id == x)
-                return this.authors[i]
-        }
+
+    private divElem(...cl: string[]): HTMLDivElement {
+        return <HTMLDivElement>this.element("div", ...cl)
     }
 
-    getRedmines(x :number[]):string {
-        let r = ''
-        x.forEach(t=>{r+= this.getRedmine(t)})
-
+    private element(t: string, ...cl: string[]): HTMLElement {
+        let r = document.createElement(t);
+        r.className = cl.join(" ");
         return r
     }
-    filterCommit(s: string) {
 
-        let pat = new RegExp(`.*${s}.*`, "igm");
-        const authors = this.authors
-            .filter(x => pat.test(x.email) || pat.test(x.name))
-            .map(x => x.id)
-        let w = this.report
-            .commits
-            .filter(x => {
-                if (authors.indexOf(x.author_id) != -1)
-                    return true;
-                if (pat.test(x.message))
-                    return true;
-                let isTag = false;
-                x.tags.forEach(t => {
-                    if (pat.test("#" + t.c.toString()))
-                        isTag = true;
-                })
-                return isTag;
-            })
-        this.updateView(w)
-
-    }
-    dateFormater(x: Date): string {
-        return `${x.getFullYear()} ${monthNames[x.getMonth() - 1]} ${x.getDate()} ${x.getHours()}:${x.getMinutes()} `
-    }
     engine(tpl: string, data: Object) {
         var re = /\[\[([^\]]+)?\]\]/g, match;
         while (match = re.exec(tpl)) {
@@ -164,45 +117,218 @@ class App {
             } else {
                 val = data[match[1]];
             }
-            tpl = tpl.split(match[0]).join( val)
+            tpl = tpl.split(match[0]).join(val)
         }
         return tpl;
     }
-}
-new App()
 
-interface Report {
-    time: Date;
-    count: number;
-    authors: Author[];
-    commits: Commit[];
-    redmine: Redmine[];
-}
-interface Redmine {
-    id: number
-    status: string
-    statusid: number;
-    subject: string
-    description: string
-    priority: string
-    author: string
+
+    dateFormater(x: Date): string {
+
+        return `${x.getFullYear()} ${monthNames[x.getMonth() - 1]} ${x.getDate()} ${x.getHours()}:${x.getMinutes()} `
+
+    }
+
+    filter(s: string, p: repository): repository {
+        return <repository>{
+            name: p.name,
+            github: p.github,
+            url: p.url,
+            redmine: p.redmine,
+            commits: p.commits.map(x => {
+                const g = new RegExp(s);
+                if (g.test(x.request) ||
+                    g.test(x.author.name) ||
+                    g.test(x.author.email)) {
+                    return x;
+                }
+                for (var i = 0; i < x.tags.length; i++) {
+                    if (g.test(x.tags[i].code.toString())) {
+                        return p
+                    }
+                }
+            })
+        }
+    }
+
+    private reneder(p: repository) {
+        let r = "";
+        p.commits.forEach(x => {
+            r += this.engine(commitTpl, {
+                date: this.dateFormater(new Date(x.time)),
+                hash: x.hash,
+                message: x.request,
+                tags: x.tags.map(y => this.engine(tagTpl, {redmine: p.redmine, code: y.code})).join(""),
+                acronim: x.author.name.substr(0, 2).toUpperCase(),
+                avatar: x.author.avatar,
+                email: x.author.email,
+                name: x.author.name,
+                repository: p.github,
+
+            });
+        });
+
+        document.getElementById("main").innerHTML = r;
+
+    }
 }
 
-interface Commit {
-    time: Date;
-    hash: string;
-    message: string;
-    tags: Tag[];
-    author_id: number;
-}
-interface Tag {
-    c: number;
-    t: string;
-}
-interface Author {
-    id: number;
-    name: string;
-    email: string;
-    hash: string;
+class manager {
 
+    connectionId: string;
+    ws: WebSocket;
+    usernameField: HTMLInputElement = <HTMLInputElement>document.getElementById("username");
+    passwordField: HTMLInputElement = <HTMLInputElement>document.getElementById("pass");
+    messageField: HTMLDivElement = <HTMLDivElement>document.getElementById("warn");
+    loginForm: HTMLDivElement = <HTMLDivElement>document.getElementById("login");
+
+
+    constructor() {
+        let ws = new WebSocket("ws://"+window.location.hostname+(location.port ? ':'+location.port: '')+"/ws");
+        this.ws = ws;
+        ws.onerror = (e) => {
+            console.log(e)
+        };
+        ws.onmessage = this.msg.bind(this);
+        ws.onopen =  this.open.bind(this);
+        document.getElementById("submit").addEventListener("click", (e) => {
+            e.preventDefault();
+            console.log({
+                id: this.usernameField.value,
+                pass: this.passwordField.value,
+                cid:this.getParameterByName("cid")||""
+            });
+            this.login({
+            id: this.usernameField.value,
+            pass: this.passwordField.value,
+            cid:this.getParameterByName("cid")||""
+        })})
+
+    }
+    getParameterByName(name) {
+        let url = window.location.href;
+        name = name.replace(/[\[\]]/g, "\\$&");
+        var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+            results = regex.exec(url);
+        if (!results) return null;
+        if (!results[2]) return '';
+        return decodeURIComponent(results[2].replace(/\+/g, " "));
+    }
+
+    showLogin() {
+        this.cleanForm();
+        this.loginForm.className = "show-login"
+    }
+
+    hideLogin() {
+        this.cleanForm();
+        this.loginForm.className = "hide-login"
+    }
+
+    cleanForm() {
+        this.usernameField.value = "";
+        this.passwordField.value = "";
+        this.messageField.innerText = "";
+    }
+
+    login(l: login) {
+
+        if (!l.pass || !l.id) {
+            this.messageField.innerText = "Please enter your username and password";
+            return
+        }
+        let d: message<login> = {
+            kind: "login",
+            data: l
+        };
+        this.ws.send(JSON.stringify(d))
+    }
+
+    msg(e: MessageEvent): any {
+        let a = <message<any>>JSON.parse(e.data);
+        if (typeof a.kind === "undefined")
+            return;
+        switch (a.kind) {
+            case "id":
+                this.connectionId = a.data;
+                document.getElementById("cid").innerText = a.data;
+
+                let im =  <HTMLImageElement>document.createElement("img");
+                im.src =  qr(a.data);
+                let holder =<HTMLDivElement>document.getElementById("qr")
+
+                holder.innerHTML = ""
+                holder.appendChild(im);
+
+
+                break;
+            case "token":
+                localStorage.setItem("token", a.data);
+                this.hideLogin();
+                break;
+            case "repositories":
+                this.hideLogin();
+                console.log(a);
+                this.repo(<message<repository[]>>a);
+                break;
+            case "logout":
+                this.logout();
+            case "close":
+                this.close()
+        }
+    }
+
+    open() {
+        let t = localStorage.getItem("token");
+        if (t!== null ) {
+            this.ws.send({
+                kind: "token",
+                data: t
+            })
+        } else {
+            console.log(t);
+            this.showLogin()
+        }
+    }
+
+
+
+    repo(a: message<repository[]>) {
+        new report(a.data);
+    }
+
+    logout() {
+        localStorage.removeItem("auth");
+        this.showLogin()
+    }
+
+    close() {
+        window.close();
+    }
 }
+const qrbase = "https://chart.googleapis.com/chart?cht=qr&chs=250x250&chld=h&chl=";
+function qr(c: string): string {
+    var protocol = location.protocol;
+    var slashes = protocol.concat("//");
+    var host = slashes.concat(window.location.hostname);
+    return qrbase + host+(location.port ? ':'+location.port: '') + "/remote/?cid=" + c
+}
+
+class remote {
+    qr: string;
+    code: string;
+}
+
+class login {
+    id: string;
+    pass: string;
+    cid:string;
+}
+
+class message<T> {
+    kind: string;
+    data: T;
+}
+
+
+new manager();

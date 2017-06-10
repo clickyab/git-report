@@ -18,29 +18,34 @@ const (
 )
 
 var (
-	minIssueCode = -1
-	signExp      = regexp.MustCompile(signPattern)
-	authorList   = make(map[string]author)
+	signExp    = regexp.MustCompile(signPattern)
+	tagPattern = regexp.MustCompile(`(ref|fix)?\s*#([0-9]+)`)
 )
 
-type author struct {
-	ID    int    `json:"id"`
-	Name  string `json:"name"`
-	Email string `json:"email"`
-	Hash  string `json:"hash"`
+type repository struct {
+	Name    string       `json:"name"`
+	URL     string       `json:"url"`
+	Github  string       `json:"github"`
+	Redmine string       `json:"redmine"`
+	Commits []commitInfo `json:"commits"`
+	Users   []user       `json:"users"`
 }
-
 type commitInfo struct {
-	Date     time.Time `json:"time"`
-	Hash     string    `json:"hash"`
-	Message  string    `json:"message"`
-	Tags     []tag     `json:"tags"`
-	AuthorID int       `json:"author_id"`
+	Date    time.Time `json:"time"`
+	Hash    string    `json:"hash"`
+	Message string    `json:"request"`
+	Tags    []tag     `json:"tags"`
+	Author  author    `json:"author"`
 }
 
+type author struct {
+	Avatar string `json:"avatar"`
+	Name   string `json:"name"`
+	Email  string `json:"email"`
+}
 type tag struct {
-	Code int    `json:"c"`
-	Type string `json:"t"`
+	Code int    `json:"code"`
+	Type string `json:"type"`
 }
 
 func commits(repo *git.Repository) []commitInfo {
@@ -55,36 +60,21 @@ func commits(repo *git.Repository) []commitInfo {
 		if err != nil {
 			break
 		}
+
 		commits = append(commits, commitInfo{
 			c.Author.When,
 			c.Hash.String(),
 			pureMessage(c.Message),
 			tagFinder(c.Message),
-			authorID(author{
-				0,
-				c.Author.Name,
-				c.Author.Email,
-				emailHash(c.Author.Email),
-			}),
+			author{
+				Avatar: emailHash(c.Author.Email),
+				Email:  c.Author.Email,
+				Name:   c.Author.Name,
+			},
 		})
 	}
 
 	return commits
-}
-
-func isOldestIssue(code int) {
-	if minIssueCode == -1 || minIssueCode > code {
-		minIssueCode = code
-	}
-}
-
-func authorID(a author) int {
-	if i, exist := authorList[a.Hash]; exist == true {
-		return i.ID
-	}
-	a.ID = len(authorList) + 1
-	authorList[a.Hash] = a
-	return a.ID
 }
 
 func pureMessage(m string) string {
@@ -109,7 +99,6 @@ func tagFinder(m string) []tag {
 	if len(rawTags) > 0 {
 		for _, c := range rawTags {
 			code, _ := strconv.Atoi(c[2])
-			isOldestIssue(code)
 			result = append(result, tag{code, c[1]})
 		}
 	}

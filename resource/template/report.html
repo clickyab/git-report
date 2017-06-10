@@ -12,6 +12,26 @@
 </head>
 
 <body>
+<form id="login">
+    <div class="space"></div>
+    <div id="qr" class="qr"></div>
+    <div class="ldata">
+        <div id="warn" class="warn">
+
+        </div>
+        <div class="f">
+            <label for="username">User:</label>
+            <input id="username" type="text">
+        </div>
+        <div class="f">
+            <label for="pass">Password:</label>
+            <input id="pass" type="password">
+        </div>
+        <input type="submit" id="submit" value="Login" title="Login" />
+    </div>
+<div class="space"></div>
+</form>
+<div id="cid"></div>
     <div class="header">
 
         <h1>Deploy Report</h1>
@@ -21,22 +41,19 @@
         
     </div>
     <div>
+        <div class="repos" id="repos">
+
+        </div>
    <div id="main"></div>
 
     </div>
 <div class="footer"></div>
    <script>
 
-   (function () {
-       staticData = "{{.Data}}";
+       (function () {
+           {{.Js}}
 
-
-
-{{.Js}}
-
-})()
-
-
+       })()
 
    </script>
 </body>
