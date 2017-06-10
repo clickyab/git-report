@@ -2,28 +2,22 @@ package main
 
 import (
 	"bytes"
+	"crypto/sha256"
+	"encoding/base64"
 	"encoding/json"
-	"flag"
 	"fmt"
+	"text/template"
 	"io"
 	"io/ioutil"
 	"log"
+	"net/http"
 	"os"
 	"path/filepath"
-	"text/template"
 	"time"
 
+	"clickyab.com/git-report/assert"
+	"clickyab.com/git-report/crypto"
 	git "gopkg.in/src-d/go-git.v4"
-)
-
-var (
-	submod          = flag.String("s", "", "Export submodule")
-	submodulesList  = flag.Bool("ls", false, "list of submodules")
-	input           = flag.String("i", ".", "Refer to git repository in your drive")
-	limit           = flag.Int("l", 100, "Specify how many log should be exported")
-	redmindEndpoint = flag.String("re", "", `Redmine host (ex: http://redmine.example.com)`)
-	redmindAPIKey   = flag.String("ra", "", `Redmine APIKey. you need to enable REST API. you can find more information about how
-	     to enable it on http://www.redmine.org/projects/redmine/wiki/Rest_api#Authentication`)
 )
 
 func submodules(repo *git.Repository) []string {
@@ -36,63 +30,132 @@ func submodules(repo *git.Repository) []string {
 }
 
 func submodule(repo *git.Repository, name string) *git.Repository {
-	var result *git.Repository
 
+	var result *git.Repository
 	w, _ := repo.Worktree()
 	r, e := w.Submodule(name)
+
 	if e == git.ErrSubmoduleNotFound {
 		log.Fatalf("submodule with name %s not found, please try -ls", name)
 	}
+
 	t, _ := r.Repository()
 	result = t
 	return result
+
+}
+
+var key [32]byte
+
+func keyer() {
+	s := sha256.New()
+	pp := s.Sum([]byte(os.Getenv("SALT")))
+	copy(key[:], pp[:32])
+}
+
+func encrypt(u user) string {
+	m, e := json.Marshal(u)
+	assert.Nil(e)
+
+	x, er := crypto.Encrypt(m, &key)
+	assert.Nil(er)
+	return base64.StdEncoding.EncodeToString(x)
+}
+
+func decrypt(s string) user {
+	r, e := base64.StdEncoding.DecodeString(s)
+	assert.Nil(e)
+	x, er := crypto.Decrypt([]byte(r), &key)
+	assert.Nil(er)
+	u := &user{}
+	e = json.Unmarshal(x, u)
+	assert.Nil(e)
+	return *u
+}
+func init() {
+	keyer()
 }
 
 func main() {
+	http.HandleFunc("/ws", socketHandler)
 
-	flag.Parse()
+	http.HandleFunc("/data", func(r http.ResponseWriter, w *http.Request) {
+		a := w.Header.Get("x-auth")
 
-	if *limit < 1 {
-		log.Fatal()
-	}
-
-	repo, _ := git.PlainOpen(getPath())
-	if *submodulesList {
-		for _, s := range submodules(repo) {
-			fmt.Println(s)
+		if a == "" {
+			r.WriteHeader(http.StatusForbidden)
+			return
 		}
-		os.Exit(0)
-	}
-	if *submod != "" {
-		copySubmodules()
-		repo = submodule(repo, *submod)
-	}
+		if w.Method != "GET" {
+			r.WriteHeader(http.StatusMethodNotAllowed)
+			return
+		}
+		u := decrypt(a)
+		z := getByUser(u)
+		if len(z) == 0 {
+			r.WriteHeader(http.StatusNotFound)
+			return
+		}
+		res, e := json.Marshal(z)
+		if e != nil {
+			r.WriteHeader(http.StatusInternalServerError)
+			return
+		}
+		r.Header().Set("Content-Type", "application/json")
+		r.WriteHeader(http.StatusOK)
+		r.Write(res)
 
-	c := commits(repo)
-	red := make([]trackerData, 0)
-	r, e := redmineIssue()
-	if e == nil {
-		red = r
-	}
+	})
 
-	authors := make([]author, 0)
-	for _, a := range authorList {
-		authors = append(authors, a)
-	}
-	report := report{
-		time.Now(),
-		len(c),
-		authors,
-		c,
-		red,
-	}
+	http.HandleFunc("/login", func(r http.ResponseWriter, q *http.Request) {
+		if q.Method != "POST" {
+			r.WriteHeader(http.StatusMethodNotAllowed)
+			return
+		}
+		dec := json.NewDecoder(q.Body)
+		u := &user{}
 
-	j, e := json.Marshal(report)
+		e := dec.Decode(u)
 
-	fError(e, "way!!!!")
-	b := bytes.Buffer{}
-	template.JSEscape(&b, j)
-	fmt.Println(string(templateBuilder(b.Bytes())))
+		if e != nil {
+			r.WriteHeader(http.StatusBadRequest)
+			return
+		}
+
+		d := encrypt(*u)
+		r.Header().Set("Content-Type", "text/text")
+		r.WriteHeader(http.StatusOK)
+		r.Write([]byte(d))
+
+	})
+
+	http.HandleFunc("/", func(r http.ResponseWriter, w *http.Request) {
+
+		m, e := json.Marshal(repositories)
+		assert.Nil(e)
+		fmt.Println(string(m))
+		b := bytes.Buffer{}
+		template.JSEscape(&b, m)
+
+		r.Header().Set("Content-Type", "text/html")
+		r.WriteHeader(http.StatusOK)
+		r.Write(templateBuilder(b.Bytes()))
+	})
+	http.ListenAndServe(fmt.Sprintf(":%d", port), nil)
+
+}
+
+func getByUser(u user) []repository {
+	z := make([]repository, 0)
+	for _, v := range repositories {
+		for _, a := range v.Users {
+			if a.ID == u.ID && a.Pass == u.Pass {
+				z = append(z, v)
+				break
+			}
+		}
+	}
+	return z
 }
 
 type templateInfo struct {
@@ -103,9 +166,9 @@ type templateInfo struct {
 }
 
 func templateBuilder(data []byte) []byte {
-	master, _ := Asset("src/cmd/reporter/resource/template/report.html")
-	app, _ := Asset("src/cmd/reporter/resource/template/app.js")
-	style, _ := Asset("src/cmd/reporter/resource/template/style.css")
+	master, _ := Asset("resource/template/report.html")
+	app, _ := Asset("resource/template/app.js")
+	style, _ := Asset("resource/template/style.css")
 
 	t := templateInfo{
 		time.Now(),
@@ -125,19 +188,6 @@ func templateBuilder(data []byte) []byte {
 	result.Execute(&buf, t)
 	return buf.Bytes()
 
-}
-
-type report struct {
-	CreationTime time.Time     `json:"time"`
-	Count        int           `json:"count"`
-	Authors      []author      `json:"authors"`
-	Commits      []commitInfo  `json:"commits"`
-	Redmine      []trackerData `json:"redmine"`
-}
-
-func copySubmodules() {
-	path := getPath() + "/.git/"
-	copyDir(path+"modules", path+"module")
 }
 
 // CopyFile copies the contents of the file named src to the file named

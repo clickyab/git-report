@@ -15,6 +15,116 @@
  body a {
      text-decoration: none
  }
+
+.tab {
+    flex: 1;
+    /* display: flex; */
+    align-self: center;
+    text-align: center;
+    padding: 15px;
+    transition: all .1s;
+    border: 1px solid #eee;
+    background: none;
+}
+
+.tab.active {
+    background: #fff;
+
+    border-bottom: none;
+}
+
+.space {
+    flex:1;
+    flex-grow: 2;
+}
+
+.tab:hover {
+    background: #223;
+    color:#ffffff;
+}
+.tabs {
+    display: flex;
+    height: 50px;
+    /* align-items: center; */
+}
+
+
+
+ #login {
+     position: fixed;
+     width: 100vw;
+     height: 100vh;
+     display: flex;
+     background: #fff;
+     /* opacity: 0; */
+     -webkit-transition: all .1s;
+     -moz-transition: all .1s;
+     -ms-transition: all .1s;
+     -o-transition: all .1s;
+     transition: all .1s;
+     top: 0;
+     left: 0;
+     align-items: center;
+ }
+
+ .show-login{
+     opacity: 1;
+ }
+.hide-login{
+    opacity: 0;
+    z-index: -1000;
+}
+ .ldata {
+     width: 25vw;
+     min-width: 250px;
+     padding: 5px;
+     border: 1px solid #eee;
+     -webkit-border-radius: 15px;
+     -moz-border-radius: 15px;
+     border-radius: 5px;
+     margin: auto;
+     padding: 20px 30px;
+     flex-grow: 4;
+     flex: 1;
+ }
+
+ #qr {
+     flex-grow: 4;
+     flex:1;
+ }
+
+#submit {
+    background: none;
+    border: 1px solid #ccc;
+    padding: 10px 15px;
+    color: inherit;
+    border-radius: 5px;
+}
+.f {
+    display: flex;
+    margin: 10px 0;
+}
+#warn {
+    min-height: 50px;
+    width: 100%;
+    color:red;
+}
+ #login label, #login input {
+     flex: 1;
+ }
+#login input {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    height: 21px;
+}
+ #cid {
+     position: fixed;
+     left:5px;
+     bottom: 5px;
+     font-size: 10px;
+     color:#999;
+ }
+
  .base-holder {
      width: 1000px;
      margin: auto
